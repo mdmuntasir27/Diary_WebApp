@@ -7,7 +7,7 @@ const auth = require('../middleware/authMiddleware');
 router.get('/', auth, async (req, res) => {
     try {
         const journals = await pool.query(
-            'SELECT * FROM journals WHERE user_id = ? ORDER BY created_at DESC',
+            'SELECT * FROM journals WHERE user_id = $1 ORDER BY created_at DESC',
             [req.user.id]
         );
         res.json(journals.rows);
@@ -22,12 +22,10 @@ router.post('/', auth, async (req, res) => {
     try {
         const { title, content } = req.body;
         const newJournal = await pool.query(
-            'INSERT INTO journals (user_id, title, content) VALUES (?, ?, ?)',
+            'INSERT INTO journals (user_id, title, content) VALUES ($1, $2, $3) RETURNING *',
             [req.user.id, title, content]
         );
-        // Fetch the newly inserted row since SQLite doesn't support RETURNING like Postgres
-        const result = await pool.query('SELECT * FROM journals WHERE id = ?', [newJournal.rows[0].id]);
-        res.json(result.rows[0]);
+        res.json(newJournal.rows[0]);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -39,7 +37,7 @@ router.delete('/:id', auth, async (req, res) => {
     try {
         const { id } = req.params;
         const journal = await pool.query(
-            'SELECT * FROM journals WHERE id = ? AND user_id = ?',
+            'SELECT * FROM journals WHERE id = $1 AND user_id = $2',
             [id, req.user.id]
         );
 
@@ -47,7 +45,7 @@ router.delete('/:id', auth, async (req, res) => {
             return res.status(404).json({ error: 'Journal not found or not authorized' });
         }
 
-        await pool.query('DELETE FROM journals WHERE id = ?', [id]);
+        await pool.query('DELETE FROM journals WHERE id = $1', [id]);
         res.json({ message: 'Journal deleted' });
     } catch (err) {
         console.error(err.message);

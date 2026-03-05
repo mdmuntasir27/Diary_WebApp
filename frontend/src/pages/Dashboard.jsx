@@ -11,7 +11,7 @@ function Dashboard() {
 
     const fetchJournals = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/journals', {
+            const res = await fetch('/api/journals', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -31,7 +31,7 @@ function Dashboard() {
         e.preventDefault();
         setError('');
         try {
-            const res = await fetch('http://localhost:5000/api/journals', {
+            const res = await fetch('/api/journals', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function Dashboard() {
 
     const handleDelete = async (id) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/journals/${id}`, {
+            const res = await fetch(`/api/journals/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

@@ -1,0 +1,8 @@
+{
+    "name": "diary_webapp",
+    "version": "1.0.0",
+    "description": "Diary Web App Deployment",
+    "scripts": {
+        "build": "cd frontend && npm install && npm run build"
+    }
+}

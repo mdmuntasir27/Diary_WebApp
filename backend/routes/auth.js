@@ -10,7 +10,7 @@ router.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
         // Check if user exists
-        const userExists = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        const userExists = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
         if (userExists.rows.length > 0) {
             return res.status(400).json({ error: 'User already exists' });
         }
@@ -20,13 +20,11 @@ router.post('/register', async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = await pool.query(
-            'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+            'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id, username',
             [username, passwordHash]
         );
 
-        // Fetch the newly inserted row since SQLite doesn't support RETURNING like Postgres
-        const result = await pool.query('SELECT id, username FROM users WHERE id = ?', [newUser.rows[0].id]);
-        res.status(201).json(result.rows[0]);
+        res.status(201).json(newUser.rows[0]);
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: 'Server Error' });
@@ -37,7 +35,7 @@ router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        const user = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
         if (user.rows.length === 0) {
             return res.status(401).json({ error: 'Invalid Credentials' });
         }
