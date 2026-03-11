@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, Moon, Sun } from 'lucide-react';
+import AuthContext from '../context/AuthContext';
 
 function Signup() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const { theme, toggleTheme } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -30,6 +32,13 @@ function Signup() {
 
     return (
         <div className="auth-container">
+            <button 
+                className="btn btn-ghost" 
+                onClick={toggleTheme}
+                style={{ position: 'absolute', top: '1rem', right: '1rem' }}
+            >
+                {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
+            </button>
             <div className="glass-card auth-box">
                 <h2 className="auth-title">Create Account</h2>
                 {error && <div className="error-msg">{error}</div>}

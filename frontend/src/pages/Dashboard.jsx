@@ -107,13 +107,13 @@ function Dashboard() {
 
             <div className="journal-list">
                 {journals.map(journal => (
-                    <div key={journal.id} className="journal-item">
+                    <div key={journal._id} className="journal-item">
                         <div className="journal-content">
                             <div className="journal-title">{journal.title}</div>
-                            <div className="journal-date">{new Date(journal.created_at).toLocaleString()}</div>
+                            <div className="journal-date">{new Date(journal.createdAt).toLocaleString()}</div>
                             <div className="journal-body">{journal.content}</div>
                         </div>
-                        <button className="btn btn-danger" style={{ padding: '0.5rem' }} onClick={() => handleDelete(journal.id)}>
+                        <button className="btn btn-danger" style={{ padding: '0.5rem' }} onClick={() => handleDelete(journal._id)}>
                             <Trash2 size={20} />
                         </button>
                     </div>
