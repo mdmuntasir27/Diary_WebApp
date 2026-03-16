@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Moon, Sun, LogOut, Plus, Trash2 } from 'lucide-react';
+import { Moon, Sun, LogOut, Plus, Trash2, Sparkles, BookHeart, PenTool } from 'lucide-react';
 import AuthContext from '../context/AuthContext';
 
 function Dashboard() {
@@ -62,8 +62,11 @@ function Dashboard() {
     };
 
     return (
-        <div className="container">
-            <header className="header">
+        <div className="container" style={{ position: 'relative' }}>
+            <Sparkles className="sticker sticker-float sticker-1" size={56} />
+            <BookHeart className="sticker sticker-float-reverse sticker-2" size={80} />
+            <PenTool className="sticker sticker-float sticker-3" size={48} />
+            <header className="header" style={{ position: 'relative', zIndex: 10 }}>
                 <h2>My Journals</h2>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                     <button className="btn btn-ghost" onClick={toggleTheme}>
@@ -75,8 +78,10 @@ function Dashboard() {
                 </div>
             </header>
 
-            <div className="glass-card" style={{ marginBottom: '2rem' }}>
-                <h3>New Entry</h3>
+            <div className="glass-card" style={{ marginBottom: '2.5rem', position: 'relative', zIndex: 10 }}>
+                <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', marginBottom: '1rem' }}>
+                    <PenTool size={24} color="var(--primary)" /> New Entry
+                </h3>
                 {error && <div className="error-msg">{error}</div>}
                 <form onSubmit={handleCreate} style={{ marginTop: '1rem' }}>
                     <div className="input-group">
@@ -105,9 +110,9 @@ function Dashboard() {
                 </form>
             </div>
 
-            <div className="journal-list">
-                {journals.map(journal => (
-                    <div key={journal._id} className="journal-item">
+            <div className="journal-list" style={{ position: 'relative', zIndex: 10 }}>
+                {journals.map((journal, index) => (
+                    <div key={journal._id} className="journal-item" style={{ animationDelay: `${index * 0.1}s` }}>
                         <div className="journal-content">
                             <div className="journal-title">{journal.title}</div>
                             <div className="journal-date">{new Date(journal.createdAt).toLocaleString()}</div>
@@ -119,8 +124,9 @@ function Dashboard() {
                     </div>
                 ))}
                 {journals.length === 0 && (
-                    <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                        No journals yet. Start writing!
+                    <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                        <BookHeart size={64} color="var(--primary)" style={{ opacity: 0.5 }} />
+                        <span style={{ fontSize: '1.1rem' }}>No journals yet. Start writing your first thought!</span>
                     </div>
                 )}
             </div>

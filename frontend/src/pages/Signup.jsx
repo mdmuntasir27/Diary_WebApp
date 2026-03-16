@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus, Moon, Sun } from 'lucide-react';
+import { UserPlus, Moon, Sun, Star, Sparkles, Heart } from 'lucide-react';
 import AuthContext from '../context/AuthContext';
 
 function Signup() {
@@ -32,6 +32,9 @@ function Signup() {
 
     return (
         <div className="auth-container">
+            <Star className="sticker sticker-float sticker-1" size={72} />
+            <Heart className="sticker sticker-float-reverse sticker-2" size={56} />
+            <Sparkles className="sticker sticker-float sticker-3" size={64} />
             <button 
                 className="btn btn-ghost" 
                 onClick={toggleTheme}

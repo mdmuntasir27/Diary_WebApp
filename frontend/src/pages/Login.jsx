@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { LogIn, Moon, Sun } from 'lucide-react';
+import { LogIn, Moon, Sun, Star, Cloud, Sparkles } from 'lucide-react';
 import AuthContext from '../context/AuthContext';
 
 function Login() {
@@ -33,6 +33,9 @@ function Login() {
 
     return (
         <div className="auth-container">
+            <Cloud className="sticker sticker-float sticker-1" size={80} />
+            <Star className="sticker sticker-float-reverse sticker-2" size={64} />
+            <Sparkles className="sticker sticker-float sticker-4" size={48} />
             <button 
                 className="btn btn-ghost" 
                 onClick={toggleTheme}
